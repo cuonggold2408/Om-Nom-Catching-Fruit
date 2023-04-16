@@ -11,7 +11,7 @@
 #include <cstdlib>
 #include <SDL_ttf.h>
 #include <stdlib.h>
-
+#include <SDL_mixer.h>
 
 //The window we'll be rendering to
 extern SDL_Window* gWindow;

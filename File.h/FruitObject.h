@@ -18,7 +18,7 @@ public:
 	void Reset(const int& yboder);
 	bool FruitExit(const int& ye);
 	void SetRect(const int& x, const int& y) { mPosX = x; mPosY = y; rect_.x = mPosX; rect_.y = mPosY; }
-	SDL_Rect GetRect() const { return rect_; }
+	SDL_Rect GetRect() const { return { mPosX, mPosY, rect_.w, rect_.h }; }
 private:
 	int x_val_;
 	double y_val_;

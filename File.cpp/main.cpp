@@ -2,7 +2,7 @@
 #include "BaseObject.h"
 #include "MainObject.h"
 #include "FruitObject.h"
-
+#include <iostream>
 SDL_Color gTextColor = {0x00, 0x00, 0x00};
 SDL_Color gTextColormark = {0xFF, 0x00, 0x00};
 
@@ -10,15 +10,20 @@ SDL_Color gTextColormark = {0xFF, 0x00, 0x00};
 
 BaseObject gBackgroundTexture;
 BaseObject gTextTexture;
+BaseObject bkgameover;
 BaseObject g_icon;
 BaseObject g_bkground;
 MainObject gMain;
+MainObject icon1;
+MainObject icon2;
+MainObject icon3;
 FruitObject *p_fruit_melon = new FruitObject();
 FruitObject *p_fruit_bom = new FruitObject();
 FruitObject *p_fruit_nho = new FruitObject();
 FruitObject *p_fruit_star = new FruitObject();
 FruitObject *p_fruit_cherry = new FruitObject();
-
+int mark=0;
+int count_die = 0;
 // Starts up SDL and creates window
 bool init();
 
@@ -109,6 +114,31 @@ bool loadMedia()
 		printf("Failed to load background texture image!\n");
 		success = false;
 	}
+
+	if (!icon1.loadFromFile("heart.png"))
+	{
+		printf("Failed to load background texture image!\n");
+		success = false;
+	}
+
+	if (!icon2.loadFromFile("heart.png"))
+	{
+		printf("Failed to load background texture image!\n");
+		success = false;
+	}
+
+	if (!icon3.loadFromFile("heart.png"))
+	{
+		printf("Failed to load background texture image!\n");
+		success = false;
+	}	
+
+	if (!bkgameover.loadFromFile("backgroundexit.png"))
+	{
+		printf("Failed to load background texture image!\n");
+		success = false;
+	}
+
 	if (!p_fruit_melon->loadFromFile("melon.png"))
 	{
 		printf("Failed to load background texture image!\n");
@@ -159,6 +189,7 @@ void close()
 {
 	// Free loaded images
 	gBackgroundTexture.free();
+	bkgameover.free();
 
 	// Destroy window
 	SDL_DestroyRenderer(gRenderer);
@@ -173,8 +204,6 @@ void close()
 
 int main(int argc, char *args[])
 {
-	int mark = 0;
-	int count_die = 0;
 	// Start up SDL and create window
 	if (!init())
 	{
@@ -229,81 +258,99 @@ int main(int argc, char *args[])
 
 				// Render Foo' to the screen
 				gMain.render(gMain.get_mPosX(), gMain.get_mPosY());
+				icon1.render(510,0);
+				icon2.render(540,0);
+				icon3.render(570,0);
 				p_fruit_melon->render(p_fruit_melon->get_mPosX(), p_fruit_melon->get_mPosY());
 				p_fruit_bom->render(p_fruit_bom->get_mPosX(), p_fruit_bom->get_mPosY());
 				p_fruit_nho->render(p_fruit_nho->get_mPosX(), p_fruit_nho->get_mPosY());
 				p_fruit_star->render(p_fruit_star->get_mPosX(), p_fruit_star->get_mPosY());
 				p_fruit_cherry->render(p_fruit_cherry->get_mPosX(), p_fruit_cherry->get_mPosY());
 
-				bool is_col = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_melon->GetRect());
-				bool is_col1 = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_nho->GetRect());
-				bool is_col2 = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_star->GetRect());
-				bool is_col3 = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_cherry->GetRect());
-
-				// if (is_col || is_col1 || is_col2 || is_col3)
-				// {
-					if (is_col3)
+				//check va cham qua
+				bool is_col = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_melon->GetRect())&& gMain.Ok();
+				bool is_col1 = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_nho->GetRect())&& gMain.Ok();
+				bool is_col2 = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_star->GetRect())&& gMain.Ok();
+				bool is_col3 = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_cherry->GetRect()) && gMain.Ok();
+				bool is_col_bom = SDLGame::CheckCollision(gMain.GetRect(),p_fruit_bom->GetRect())&&gMain.Ok();
+				if (is_col || is_col1 || is_col2 || is_col3||is_col_bom)
+				{
+					if (is_col2)
+					{
+						mark = mark + 10;
+						p_fruit_star->Reset(-5000);
+					}
+					else if(is_col1||is_col3||is_col)
 					{
 						mark = mark + 5;
 					}
-					// else
-					// {
-					// 	mark = mark + 1;
-					// }
+					else{
+						mark/=2;
+						++count_die;
+						if(count_die==1){
+							icon3.free();
+						}
+						if(count_die==2){
+							icon2.free();
+						}
+						if(count_die==3){
+							icon1.free();
+							close();
+							bkgameover.loadFromFile("backgroundexit.png");
+						}
+					}
 
-				// 	if (is_col)
-				// 	{
-				// 		p_fruit_melon->Reset(-50);
-				// 	}
+					if (is_col)
+					{
+						p_fruit_melon->Reset(-50);
+					}
 
-				// 	if (is_col1)
-				// 	{
-				// 		p_fruit_nho->Reset(-100);
-				// 	}
+					if (is_col1)
+					{
+						p_fruit_nho->Reset(-100);
+					}
 
-				// 	if (is_col2)
-				// 	{
-				// 		p_fruit_star->Reset(-20);
-				// 	}
+					if (is_col2)
+					{
+						p_fruit_star->Reset(-5000);
+					}
 
-				// 	if (is_col3)
-				// 	{
-				// 		p_fruit_cherry->Reset(-5000);
-				// 	}
-				// }
+					if (is_col3)
+					{
+						p_fruit_cherry->Reset(-20);
+					}
+					if(is_col_bom){
+						p_fruit_bom->Reset(-4000);
+					}
+				}
+				// in diem
 				char str[10];
-				// SDL_itoa(mark, str, 10);
 				std::string val_str_mark = std::to_string(mark);
 				std::string strMark("Score : ");
 				strMark += val_str_mark;
 				gMark = TTF_RenderText_Solid(gFontTime, strMark.c_str(), gTextColormark);
 				gTextTexture.loadFromRenderedText(strMark, gTextColormark);
 				gTextTexture.render(0, 0);
- 
-				// //Reset fruit
-				// bool is_die = p_fruit_melon->FruitExit(p_fruit_melon->GetRect().y);
-				// bool is_die1 = p_fruit_nho->FruitExit(p_fruit_nho->GetRect().y);
-				// bool is_die2 = p_fruit_cherry->FruitExit(p_fruit_cherry->GetRect().y);
 
-				// if (is_die1 || is_die || is_die2)
-				// {
+				if(gMain.check()){
+					if(mark < 1){
+						mark = 0;
+					}
+				}
+
+				// an bom end game
+				// bool is_col_bom = SDLGame::CheckCollision(gMain.GetRect(),p_fruit_bom->GetRect())&&gMain.Ok();
+				// if(is_col_bom){
 				// 	count_die++;
-				// 	g_icon.loadFromFile("iconx.png");
-				// 	g_bkground.loadFromFile("background1.png");
-				// 	// SDLGame::ApplySurface(g_icon, g_bkground, 400 + 30 * count_die, 10);
-				// 	if (is_die1)
-				// 	{
-				// 		p_fruit_melon->Reset(-100);
-				// 	}
-				// 	if (is_die)
-				// 	{
-				// 		p_fruit_nho->Reset(-50);
-				// 	}
-				// 	if (is_die2)
-				// 	{
-				// 		p_fruit_cherry->Reset(-200);
+				// 	if(count_die==3){
+				// 		bkgameover.loadFromFile("backgroundexit.png");
 				// 	}
 				// }
+				
+				
+				
+				
+				
 				// Update screen
 				SDL_RenderPresent(gRenderer);
 			}
