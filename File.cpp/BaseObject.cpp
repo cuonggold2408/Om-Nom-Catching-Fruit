@@ -12,7 +12,7 @@ BaseObject::BaseObject()
 
 BaseObject::~BaseObject()
 {
-    // Deallocate
+    // Deallocate    
     free();
 }
 
