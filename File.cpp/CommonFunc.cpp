@@ -8,11 +8,19 @@ SDL_Renderer* gRenderer = NULL;
 SDL_Event g_event;
 
 TTF_Font* gFont = NULL;
+TTF_Font* gFont1 = NULL;
 TTF_Font* gFontTime = NULL;
 
 SDL_Surface* gMark = NULL;
-// SDL_Surface* g_icon = NULL;
-// SDL_Surface* g_bkground = NULL;
+
+Mix_Music *gMusic = NULL;
+
+// Mix_Music *gMusic = NULL;
+Mix_Chunk *gBomb = NULL;
+Mix_Chunk *geatfruit = NULL;
+Mix_Chunk *gdied = NULL;
+// Mix_Chunk *gMedium = NULL;
+// Mix_Chunk *gLow = NULL;
 
 bool SDLGame::CheckCollision(const SDL_Rect a, const SDL_Rect b)
 {

@@ -14,7 +14,6 @@ BaseObject gTextTexture;
 BaseObject bkgameover;
 BaseObject bkMENU;
 BaseObject g_icon;
-BaseObject pts;
 BaseObject g_bkground;
 MainObject gMain;
 MainObject icon1;
@@ -28,156 +27,164 @@ FruitObject *p_fruit_cherry = new FruitObject();
 int mark = 0;
 int count_die = 0;
 
-
-class TextObject : public BaseObject
+class TextObject
 {
-    public:
-    enum
-    {
-        RED_TEXT = 0,
-        WHITE_TEXT = 1,
-        BLACK_TEXT = 2,
-    };
-    SDL_Color GetColor(){return text_color;}
-    void SetColor(const int& type);
-    // bool loadFromRenderedText( std::string textureText, SDL_Color textColor );
-	// bool loadFromFile(std::string path);
-    // void free();
-    void confirmOx_Oy(int x, int y){Ox = x;Oy = y;}
-    int getOx(){return Ox;}
-    int getOy(){return Oy;}
-    SDL_Rect getRect(){return hcn;}
-    void SetRect()
-    {
-        hcn.x = Ox;
-        hcn.y = Oy;
-        hcn.w = mWidth;
-        hcn.h = mHeight;
-    }
-    // bool render( int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
-    private:
-    std::string str;
-    SDL_Color text_color;
-    SDL_Texture* mTexture;
-    int mWidth;
-    int mHeight;
-    int Ox, Oy;
-    SDL_Rect hcn;
+public:
+	enum
+	{
+		RED_TEXT = 0,
+		WHITE_TEXT = 1,
+		BLACK_TEXT = 2,
+		PINK_TEXT = 3,
+	};
+	SDL_Color GetColor() { return text_color; }
+	void SetColor(const int &type);
+	bool loadFromRenderedText(std::string textureText, SDL_Color textColor);
+	bool loadFromFile(std::string path);
+	void free();
+	void confirmOx_Oy(int x, int y)
+	{
+		Ox = x;
+		Oy = y;
+	}
+	int getOx() { return Ox; }
+	int getOy() { return Oy; }
+	SDL_Rect getRect() { return hcn; }
+	void SetRect()
+	{
+		hcn.x = Ox;
+		hcn.y = Oy;
+		hcn.w = mWidth;
+		hcn.h = mHeight;
+	}
+	bool render(int x, int y, SDL_Rect *clip = NULL, double angle = 0.0, SDL_Point *center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+
+private:
+	std::string str;
+	SDL_Color text_color;
+	SDL_Texture *mTexture;
+	int mWidth;
+	int mHeight;
+	int Ox, Oy;
+	SDL_Rect hcn;
 };
-// void TextObject::free()
-// {
-//     // Free texture if it exists
-//     if (mTexture != NULL)
-//     {
-//         SDL_DestroyTexture(mTexture);
-//         mTexture = NULL;
-//         mWidth = 0;
-//         mHeight = 0;
-//     }
-// }
-// bool TextObject::render( int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip )
-// {
-//     //Set rendering space and render to screen
-//     SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
-//     //Set clip rendering dimensions
-//     if( clip != NULL )
-//     {
-//         renderQuad.w = clip->w;
-//         renderQuad.h = clip->h;
-//     }
-
-//     //Render to screen
-//     SDL_RenderCopyEx( gRenderer, mTexture, clip, &renderQuad, angle, center, flip );
-// }
-// bool TextObject::loadFromRenderedText( std::string textureText, SDL_Color textColor )
-// {
-    //Get rid of preexisting texture
-    
-
-    //Render text surface
-//     SDL_Surface* textSurface = TTF_RenderText_Solid( gFont, textureText.c_str(), textColor );
-//     if( textSurface == NULL )
-//     {
-//         printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
-//     }
-//     else
-//     {
-//         //Create texture from surface pixels
-//         mTexture = SDL_CreateTextureFromSurface( gRenderer, textSurface );
-//         if( mTexture == NULL )
-//         {
-//             printf( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
-//         }
-//         else
-//         {
-//             //Get image dimensions
-//             mWidth = textSurface->w;
-//             mHeight = textSurface->h;
-//         }
-
-//         //Get rid of old surface
-//         SDL_FreeSurface( textSurface );
-//     }
-    
-//     //Return success
-//     return mTexture != NULL;
-// }
-void TextObject::SetColor(const int& type)
+void TextObject::free()
 {
-    if(type == RED_TEXT)
-    {
-        text_color = {255, 0, 0};
-    }
-    else if(type == WHITE_TEXT)
-    {
-        text_color = {255, 255, 255};
-    }
-    else if(type == BLACK_TEXT)
-    {
-        text_color = {0, 0, 0};
-    }
+	// Free texture if it exists
+	if (mTexture != NULL)
+	{
+		SDL_DestroyTexture(mTexture);
+		mTexture = NULL;
+		mWidth = 0;
+		mHeight = 0;
+	}
 }
-// bool TextObject::loadFromFile(std::string path)
-// {
-//     // Get rid of preexisting texture
-//     free();
+bool TextObject::render(int x, int y, SDL_Rect *clip, double angle, SDL_Point *center, SDL_RendererFlip flip)
+{
+	// Set rendering space and render to screen
+	SDL_Rect renderQuad = {x, y, mWidth, mHeight};
 
-//     // The final texture
-//     SDL_Texture *newTexture = NULL;
+	// Set clip rendering dimensions
+	if (clip != NULL)
+	{
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
+	}
 
-//     // Load image at specified path
-//     SDL_Surface *loadedSurface = IMG_Load(path.c_str());
-//     if (loadedSurface == NULL)
-//     {
-//         printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
-//     }
-//     else
-//     {
-//         // Color key image
-//         SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGBA(loadedSurface->format, 0xFF, 0xFF, 0xFF, 0xFF));
+	// Render to screen
+	SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
+}
+bool TextObject::loadFromRenderedText(std::string textureText, SDL_Color textColor)
+{
+	SDL_Surface *textSurface = TTF_RenderText_Solid(gFont1, textureText.c_str(), textColor);
+	if (textSurface == NULL)
+	{
+		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+	}
+	else
+	{
+		// Create texture from surface pixels
+		mTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
+		if (mTexture == NULL)
+		{
+			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+		}
+		else
+		{
+			// Get image dimensions
+			mWidth = textSurface->w;
+			mHeight = textSurface->h;
+		}
 
-//         // Create texture from surface pixels
-//         newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
-//         if (newTexture == NULL)
-//         {
-//             printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-//         }
-//         else
-//         {
-//             // Get image dimensions
-//             mWidth = loadedSurface->w;
-//             mHeight = loadedSurface->h;
-//         }
+		// Get rid of old surface
+		SDL_FreeSurface(textSurface);
+	}
 
-//         // Get rid of old loaded surface
-//         SDL_FreeSurface(loadedSurface);
-//     }
+	// Return success
+	return mTexture != NULL;
+}
 
-//     // Return success
-//     mTexture = newTexture;
-//     return mTexture != NULL;
-// }
+void TextObject::SetColor(const int &type)
+{
+	if (type == RED_TEXT)
+	{
+		text_color = {255, 0, 0};
+	}
+	else if (type == WHITE_TEXT)
+	{
+		text_color = {255, 255, 255};
+	}
+	else if (type == BLACK_TEXT)
+	{
+		text_color = {0, 0, 0};
+	}
+	else if (type == PINK_TEXT)
+	{
+		text_color = {255, 192, 203};
+	}
+}
+
+bool TextObject::loadFromFile(std::string path)
+{
+	// Get rid of preexisting texture
+	free();
+
+	// The final texture
+	SDL_Texture *newTexture = NULL;
+
+	// Load image at specified path
+	SDL_Surface *loadedSurface = IMG_Load(path.c_str());
+	if (loadedSurface == NULL)
+	{
+		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+	}
+	else
+	{
+		// Color key image
+		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGBA(loadedSurface->format, 0xFF, 0xFF, 0xFF, 0xFF));
+
+		// Create texture from surface pixels
+		newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
+		if (newTexture == NULL)
+		{
+			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+		}
+		else
+		{
+			// Get image dimensions
+			mWidth = loadedSurface->w;
+			mHeight = loadedSurface->h;
+		}
+
+		// Get rid of old loaded surface
+		SDL_FreeSurface(loadedSurface);
+	}
+
+	// Return success
+	mTexture = newTexture;
+	return mTexture != NULL;
+}
 
 bool init();
 
@@ -189,13 +196,11 @@ void close();
 
 bool init()
 {
-	// srand(time(0));
-
 	// Initialization flag
 	bool success = true;
 
 	// Initialize SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
 		success = false;
@@ -241,6 +246,13 @@ bool init()
 				if (TTF_Init() == -1)
 				{
 					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+					success = false;
+				}
+
+				// Initialize SDL_mixer
+				if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+				{
+					printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 					success = false;
 				}
 			}
@@ -299,12 +311,6 @@ bool loadMedia()
 		success = false;
 	}
 
-	if (!pts.loadFromFile("pts1.png"))
-	{
-		printf("Failed to load background texture image!\n");
-		success = false;
-	}
-
 	if (!p_fruit_melon->loadFromFile("melon.png"))
 	{
 		printf("Failed to load background texture image!\n");
@@ -331,9 +337,39 @@ bool loadMedia()
 		success = false;
 	}
 
-	gFont = TTF_OpenFont("lazy.ttf", 28);
-	gFontTime = TTF_OpenFont("lazy.ttf", 20);
-	if (gFont == NULL || gFontTime == NULL)
+	// Load music
+	gMusic = Mix_LoadMUS("music.mp3");
+	if (gMusic == NULL)
+	{
+		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
+		success = false;
+	}
+
+	gBomb = Mix_LoadWAV("Bomb.wav");
+	if (gBomb == NULL)
+	{
+		printf("Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+		success = false;
+	}
+
+	geatfruit = Mix_LoadWAV("eatfruit.wav");
+	if (geatfruit == NULL)
+	{
+		printf("Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+		success = false;
+	}
+
+	gdied = Mix_LoadWAV("diedsound.mp3");
+	if (gdied == NULL)
+	{
+		printf("Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+		success = false;
+	}
+
+	gFont = TTF_OpenFont("XeroxBold.ttf", 30);
+	gFont1 = TTF_OpenFont("XeroxBold.ttf", 46);
+	gFontTime = TTF_OpenFont("XeroxBold.ttf", 20);
+	if (gFont == NULL || gFontTime == NULL || gFont1 == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
 		success = false;
@@ -356,6 +392,19 @@ void close()
 	// Free loaded images
 	gBackgroundTexture.free();
 
+	// Free the music
+	Mix_FreeMusic(gMusic);
+	gMusic = NULL;
+
+	// Free the sound effects
+	Mix_FreeChunk(gBomb);
+	gBomb = NULL;
+
+	Mix_FreeChunk(geatfruit);
+	geatfruit= NULL;
+
+	Mix_FreeChunk(gdied);
+	gdied = NULL;
 	// Destroy window
 	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(gWindow);
@@ -363,206 +412,206 @@ void close()
 	gRenderer = NULL;
 
 	// Quit SDL subsystems
+	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
-bool checkpositionforrect(const int& x, const int& y, SDL_Rect rect)
+bool checkpositionforrect(const int &x, const int &y, SDL_Rect rect)
 {
-    if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h)
-    {
-        return true;
-    }
-        return false;
+	if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h)
+	{
+		return true;
+	}
+	return false;
 }
 int showGameover(SDL_Event e)
 {
-    SDL_Rect item[itemGame_over];
-    item[0].x = 200;
-    item[0].y = 400;
-    item[1].x = 200;
-    item[1].y = 450;
+	SDL_Rect item[itemGame_over];
+	item[0].x = 185;
+	item[0].y = 300;
+	item[1].x = 185;
+	item[1].y = 360;
 
-    int x, y;
-    TextObject text_menu[itemGame_over];
-    text_menu[0].SetColor(1);
-    text_menu[0].loadFromRenderedText("Play new",text_menu[0].GetColor());
-    text_menu[0].confirmOx_Oy(item[0].x, item[0].y);
-    text_menu[0].SetRect();
+	int x, y;
+	TextObject text_menu[itemGame_over];
+	text_menu[0].SetColor(3);
+	text_menu[0].loadFromRenderedText("Restart", text_menu[0].GetColor());
+	text_menu[0].confirmOx_Oy(item[0].x, item[0].y);
+	text_menu[0].SetRect();
 
-    text_menu[1].SetColor(1);
-    text_menu[1].loadFromRenderedText("Exit",text_menu[1].GetColor());
-    text_menu[1].confirmOx_Oy(item[1].x, item[1].y);
-    text_menu[1].SetRect();
+	text_menu[1].SetColor(3);
+	text_menu[1].loadFromRenderedText("Quit", text_menu[1].GetColor());
+	text_menu[1].confirmOx_Oy(item[1].x, item[1].y);
+	text_menu[1].SetRect();
 
-    bool Selected[itemGame_over] = {0, 0};
-    bool quit = false;
-    while(!quit)
-    {
-        while(SDL_PollEvent(&e) != 0)
-        {
-            switch(e.type)
-            {
-                case SDL_QUIT:
-                quit = true;
-                break;
-                case SDL_MOUSEMOTION:
-                {
-                    SDL_GetMouseState( &x, &y );
-                    for(int i = 0; i < itemGame_over; i++)
-                    {
-                        if(checkpositionforrect(x, y, text_menu[i].getRect()))
-                        {
-                            if(Selected[i] == 0)
-                            {
-                                Selected[i] = 1;
-                                text_menu[i].SetColor(2);
-                            }
-                        }
-                        else
-                        {
-                            if(Selected[i] == 1)
-                            {
-                                Selected[i] = 0;
-                                text_menu[i].SetColor(1);
-                                
-                            }
-                        }
-                    }
-                }
-                break;
-                case SDL_MOUSEBUTTONDOWN:
-                {
-                    SDL_GetMouseState( &x, &y );
-                    for(int i = 0; i < itemGame_over; i++)
-                    {
-                        if(checkpositionforrect(x, y, text_menu[i].getRect()))
-                        {
-                            return i;
-                        }
-                    }
-                }
-                break;
-                case SDL_KEYDOWN:
-                {
-                    if(e.key.keysym.sym == SDLK_ESCAPE)
-                    {
-                        return 1;
-                    }
-                }
-                default:
-                break;
-            }
-        }
-        SDL_RenderClear( gRenderer );
+	bool Selected[itemGame_over] = {0, 0};
+	bool quit = false;
+	while (!quit)
+	{
+		while (SDL_PollEvent(&e) != 0)
+		{
+			switch (e.type)
+			{
+			case SDL_QUIT:
+				quit = true;
+				break;
+			case SDL_MOUSEMOTION:
+			{
+				SDL_GetMouseState(&x, &y);
+				for (int i = 0; i < itemGame_over; i++)
+				{
+					if (checkpositionforrect(x, y, text_menu[i].getRect()))
+					{
+						if (Selected[i] == 0)
+						{
+							Selected[i] = 1;
+							text_menu[i].SetColor(1);
+						}
+					}
+					else
+					{
+						if (Selected[i] == 1)
+						{
+							Selected[i] = 0;
+							text_menu[i].SetColor(3);
+						}
+					}
+				}
+			}
+			break;
+			case SDL_MOUSEBUTTONDOWN:
+			{
+				SDL_GetMouseState(&x, &y);
+				for (int i = 0; i < itemGame_over; i++)
+				{
+					if (checkpositionforrect(x, y, text_menu[i].getRect()))
+					{
+						return i;
+					}
+				}
+			}
+			break;
+			case SDL_KEYDOWN:
+			{
+				if (e.key.keysym.sym == SDLK_ESCAPE)
+				{
+					return 1;
+				}
+			}
+			default:
+				break;
+			}
+		}
+		SDL_RenderClear(gRenderer);
 
-        bkgameover.render(0, 0);
-        for(int i = 0; i < itemGame_over; i++)
-        {
-            if(i == 0) text_menu[i].loadFromRenderedText("Play new",text_menu[i].GetColor());
-            if(i == 1) text_menu[i].loadFromRenderedText("Exit",text_menu[i].GetColor());
-            text_menu[i].render(text_menu[i].getOx(), text_menu[i].getOy());
-        }
+		bkgameover.render(0, 0);
+		for (int i = 0; i < itemGame_over; i++)
+		{
+			if (i == 0)
+				text_menu[i].loadFromRenderedText("Restart", text_menu[i].GetColor());
+			if (i == 1)
+				text_menu[i].loadFromRenderedText("Quit", text_menu[i].GetColor());
+			text_menu[i].render(text_menu[i].getOx(), text_menu[i].getOy());
+		}
 
-        SDL_RenderPresent(gRenderer);
-    }
-    return 1;
+		SDL_RenderPresent(gRenderer);
+	}
+	return 1;
 }
 int showMenu(SDL_Event e)
 {
-    SDL_Rect item[itemMenu];
-    item[0].x = 146;
-    item[0].y = 238;
-    item[1].x = 150;
-    item[1].y = 350;
+	SDL_Rect item[itemMenu];
+	item[0].x = 150;
+	item[0].y = 254;
+	item[1].x = 160;
+	item[1].y = 338;
 
-    int x, y;
-    TextObject text_menu[itemMenu];
-    text_menu[0].SetColor(0);
-    // text_menu[0].loadFromRenderedText("Play Game",text_menu[0].GetColor());
-	text_menu[0].loadFromFile("pts1.png");
-    text_menu[0].confirmOx_Oy(item[0].x, item[0].y);
-    text_menu[0].SetRect();
+	int x, y;
+	TextObject text_menu[itemMenu];
+	text_menu[0].SetColor(0);
+	text_menu[0].loadFromRenderedText("Play Game", text_menu[0].GetColor());
+	text_menu[0].confirmOx_Oy(item[0].x, item[0].y);
+	text_menu[0].SetRect();
 
-    text_menu[1].SetColor(0);
-    text_menu[1].loadFromRenderedText("Exit",text_menu[1].GetColor());
-    text_menu[1].confirmOx_Oy(item[1].x, item[1].y);
-    text_menu[1].SetRect();
+	text_menu[1].SetColor(0);
+	text_menu[1].loadFromRenderedText("Exit", text_menu[1].GetColor());
+	text_menu[1].confirmOx_Oy(item[1].x, item[1].y);
+	text_menu[1].SetRect();
 
-    bool Selected[itemMenu] = {0, 0};
-    bool quit = false;
-    while(!quit)
-    {
-        while(SDL_PollEvent(&e) != 0)
-        {
-            switch(e.type)
-            {
-                case SDL_QUIT:
-                quit = true;
-                break;
-                case SDL_MOUSEMOTION:
-                {
-                    SDL_GetMouseState( &x, &y );
-                    for(int i = 0; i < itemMenu; i++)
-                    {
-                        if(checkpositionforrect(x, y, text_menu[i].getRect()))
-                        {
-                            if(Selected[i] == 0)
-                            {
-                                Selected[i] = 1;
-                                text_menu[i].SetColor(2);
-                            }
-                        }
-                        else
-                        {
-                            if(Selected[i] == 1)
-                            {
-                                Selected[i] = 0;
-                                text_menu[i].SetColor(0);
-                                
-                            }
-                        }
-                    }
-                }
-                break;
-                case SDL_MOUSEBUTTONDOWN:
-                {
-                    SDL_GetMouseState( &x, &y );
-                    for(int i = 0; i < itemMenu; i++)
-                    {
-                        if(checkpositionforrect(x, y, text_menu[i].getRect()))
-                        {
-                            return i;
-                        }
-                    }
-                }
-                break;
-                case SDL_KEYDOWN:
-                {
-                    if(e.key.keysym.sym == SDLK_ESCAPE)
-                    {
-                        return 1;
-                    }
-                }
-                default:
-                break;
-            }
-        }
-        SDL_RenderClear( gRenderer );
+	bool Selected[itemMenu] = {0, 0};
+	bool quit = false;
+	while (!quit)
+	{
+		while (SDL_PollEvent(&e) != 0)
+		{
+			switch (e.type)
+			{
+			case SDL_QUIT:
+				quit = true;
+				break;
+			case SDL_MOUSEMOTION:
+			{
+				SDL_GetMouseState(&x, &y);
+				for (int i = 0; i < itemMenu; i++)
+				{
+					if (checkpositionforrect(x, y, text_menu[i].getRect()))
+					{
+						if (Selected[i] == 0)
+						{
+							Selected[i] = 1;
+							text_menu[i].SetColor(2);
+						}
+					}
+					else
+					{
+						if (Selected[i] == 1)
+						{
+							Selected[i] = 0;
+							text_menu[i].SetColor(0);
+						}
+					}
+				}
+			}
+			break;
+			case SDL_MOUSEBUTTONDOWN:
+			{
+				SDL_GetMouseState(&x, &y);
+				for (int i = 0; i < itemMenu; i++)
+				{
+					if (checkpositionforrect(x, y, text_menu[i].getRect()))
+					{
+						return i;
+					}
+				}
+			}
+			break;
+			case SDL_KEYDOWN:
+			{
+				if (e.key.keysym.sym == SDLK_ESCAPE)
+				{
+					return 1;
+				}
+			}
+			default:
+				break;
+			}
+		}
+		SDL_RenderClear(gRenderer);
 
-        bkMENU.render(0, 0);
-        for(int i = 0; i < itemMenu; i++)
-        {
-            // if(i == 0) text_menu[i].loadFromRenderedText("Play Game",text_menu[i].GetColor());
-			if(i == 0) text_menu[i].loadFromFile("pts1.png");
-            if(i == 1) text_menu[i].loadFromRenderedText("Exit",text_menu[i].GetColor());
-            text_menu[i].render(text_menu[i].getOx(), text_menu[i].getOy());
-        }
+		bkMENU.render(0, 0);
+		for (int i = 0; i < itemMenu; i++)
+		{
+			if (i == 0)
+				text_menu[i].loadFromRenderedText("Play Game", text_menu[i].GetColor());
+			if (i == 1)
+				text_menu[i].loadFromRenderedText("Exit", text_menu[i].GetColor());
+			text_menu[i].render(text_menu[i].getOx(), text_menu[i].getOy());
+		}
 
-        SDL_RenderPresent(gRenderer);
-    }
-    return 1;
+		SDL_RenderPresent(gRenderer);
+	}
+	return 1;
 }
-
 
 int main(int argc, char *args[])
 {
@@ -586,14 +635,16 @@ int main(int argc, char *args[])
 			// Event handler
 			SDL_Event e;
 
-
 			// khoi tao menu ban dau vao game
 			int check = showMenu(e);
-			if(check) quit = true;
-			else quit = false;
+			if (check)
+			{
+				quit = true;
+			}
+			else
+				quit = false;
 			// ket thuc ham khoi tao menu
-
-
+			Mix_PlayMusic(gMusic, -1);
 			while (!quit)
 			{
 				// Handle events on queue
@@ -606,7 +657,6 @@ int main(int argc, char *args[])
 					}
 					gMain.handleEvent(e);
 				}
-
 				gMain.move();
 				p_fruit_melon->set_y_val(rand() % 10);
 				p_fruit_melon->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -641,43 +691,84 @@ int main(int argc, char *args[])
 				bool is_col1 = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_nho->GetRect()) && gMain.Ok();
 				bool is_col2 = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_star->GetRect()) && gMain.Ok();
 				bool is_col3 = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_cherry->GetRect()) && gMain.Ok();
-				bool is_col_bom = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_bom->GetRect()) && gMain.Ok();
+				bool is_col_bom = SDLGame::CheckCollision(gMain.GetRect(), p_fruit_bom->GetRect());
 				if (is_col || is_col1 || is_col2 || is_col3 || is_col_bom)
 				{
 					if (is_col2)
 					{
 						mark = mark + 10;
 						p_fruit_star->Reset(-5000);
+						Mix_PlayChannel(-1, geatfruit, 0);
 					}
 					else if (is_col1 || is_col3 || is_col)
 					{
 						mark = mark + 5;
+						Mix_PlayChannel(-1, geatfruit, 0);
 					}
 					else
 					{
+						Mix_PlayChannel(-1, gBomb, 0);
 						mark /= 2;
 						++count_die;
-						if(count_die==1){
+						if (count_die == 1)
+						{
 							icon3.free();
 						}
-						if(count_die==2){
+						if (count_die == 2)
+						{
 							icon2.free();
 						}
-						if(count_die>=3){
+						if (count_die == 3)
+						{
 							icon1.free();
-
-
+							count_die = 0;
+							// Free the music
+							Mix_FreeMusic(gMusic);
+							gMusic = NULL;
+							Mix_PlayChannel(-1, gdied, 0);
 							// ham khoi tao game over
 							int ret = showGameover(e);
-							if(ret == 0)
+							if (ret == 0)
 							{
+								gMusic = Mix_LoadMUS("music.mp3");
+
+								Mix_PlayMusic(gMusic, -1);
 								quit = false;
+								gMain.loadFromFile("object1.png");
+								mark = 0;
+								icon1.loadFromFile("heart.png");
+								icon2.loadFromFile("heart.png");
+								icon3.loadFromFile("heart.png");
+								icon1.render(510, 0);
+								icon2.render(540, 0);
+								icon3.render(570, 0);
+
+								//reset lai di chuyen on nom
+								gMain.checkvel();
+
+								//reset lai vi tri ban dau cua qua
+								p_fruit_bom->checkfruit();
+								p_fruit_cherry->checkfruit();
+								p_fruit_melon->checkfruit();
+								p_fruit_nho->checkfruit();
+								p_fruit_star->checkfruit();
+
+								while (SDL_PollEvent(&e) != 0)
+								{
+									// User requests quit
+									if (e.type == SDL_QUIT)
+									{
+										quit = true;
+									}
+									gMain.handleEvent(e);
+								}
+								gMain.move();
 							}
-							else quit = true;
+							else
+								quit = true;
 							// ket thuc game over
 						}
 					}
-
 					if (is_col)
 					{
 						p_fruit_melon->Reset(-50);
@@ -719,16 +810,6 @@ int main(int argc, char *args[])
 						mark = 0;
 					}
 				}
-
-				// an bom end game
-				// bool is_col_bom = SDLGame::CheckCollision(gMain.GetRect(),p_fruit_bom->GetRect())&&gMain.Ok();
-				// if(is_col_bom){
-				// 	count_die++;
-				// 	if(count_die==3){
-				// 		bkgameover.loadFromFile("backgroundexit.png");
-				// 	}
-				// }
-
 				// Update screen
 				SDL_RenderPresent(gRenderer);
 			}

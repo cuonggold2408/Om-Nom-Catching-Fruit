@@ -21,11 +21,18 @@ extern SDL_Renderer* gRenderer;
 
 extern SDL_Event g_event;
 extern TTF_Font* gFont;
+extern TTF_Font* gFont1;
 extern TTF_Font* gFontTime;
 extern SDL_Surface* gMark;
-// extern SDL_Surface* g_icon;
-// extern SDL_Surface* g_bkground;
-;
+
+//The music that will be played
+extern Mix_Music *gMusic;
+
+// extern Mix_Music *gMusic
+extern Mix_Chunk *gBomb;
+extern Mix_Chunk *geatfruit;
+extern Mix_Chunk *gdied;
+// extern Mix_Chunk *gLow
 //Screen
 const int SCREEN_WIDTH = 600;
 const int SCREEN_HEIGHT = 600;

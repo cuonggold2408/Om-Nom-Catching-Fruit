@@ -14,6 +14,7 @@ class MainObject : public BaseObject{
 	    SDL_Rect GetRect() const { return { mPosX, mPosY, rect_.w, rect_.h }; }
         bool Ok();
         bool check();
+        bool checkvel();
     private:
 		double mVelX, mVelY;    
         SDL_Rect rect_;

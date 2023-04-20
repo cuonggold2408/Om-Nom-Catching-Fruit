@@ -128,3 +128,16 @@ bool MainObject::check()
     }
     return 0;
 }
+
+bool MainObject::checkvel()
+{
+    if(mVelX != 0){
+        mVelX = 0;
+        return 1;
+    }
+    if(mVelY != 0){
+        mVelY = 0;
+        return 1;
+    }
+    return 0;
+}
