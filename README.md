@@ -29,7 +29,7 @@ e) Cách chạy chương trình
 - Tải sdl2 rồi cài sdl2 và makefile vào vscode.
 - Kéo source code về thư mục có chứa file sdl2 và vscode.
 - Đưa hết các file .cpp, .h, Image, Music and sound effect ở trong thư mục chứa nó ra hết phía ngoài thư mục chính.
-- Cuối cùng là chạy chạy trình bằng makefile và bắt đầu thưởng thức game ^^.
+- Cuối cùng là chạy chương trình bằng makefile và bắt đầu thưởng thức game ^^.
 
   
   ## MÔ TẢ 
