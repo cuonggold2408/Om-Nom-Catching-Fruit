@@ -28,11 +28,11 @@ extern SDL_Surface* gMark;
 //The music that will be played
 extern Mix_Music *gMusic;
 
-// extern Mix_Music *gMusic
 extern Mix_Chunk *gBomb;
 extern Mix_Chunk *geatfruit;
 extern Mix_Chunk *gdied;
-// extern Mix_Chunk *gLow
+
+extern int mark;
 //Screen
 const int SCREEN_WIDTH = 600;
 const int SCREEN_HEIGHT = 600;

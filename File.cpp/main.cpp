@@ -24,7 +24,16 @@ FruitObject *p_fruit_bom = new FruitObject();
 FruitObject *p_fruit_nho = new FruitObject();
 FruitObject *p_fruit_star = new FruitObject();
 FruitObject *p_fruit_cherry = new FruitObject();
-int mark = 0;
+
+FruitObject *p_fruits[]{
+	p_fruit_melon,
+	p_fruit_bom,
+	p_fruit_nho,
+	p_fruit_star,
+	p_fruit_cherry};
+
+FruitObject speedfruit;
+// int mark = 0;
 int count_die = 0;
 
 class TextObject
@@ -401,7 +410,7 @@ void close()
 	gBomb = NULL;
 
 	Mix_FreeChunk(geatfruit);
-	geatfruit= NULL;
+	geatfruit = NULL;
 
 	Mix_FreeChunk(gdied);
 	gdied = NULL;
@@ -657,6 +666,7 @@ int main(int argc, char *args[])
 					}
 					gMain.handleEvent(e);
 				}
+
 				gMain.move();
 				p_fruit_melon->set_y_val(rand() % 10);
 				p_fruit_melon->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -668,6 +678,7 @@ int main(int argc, char *args[])
 				p_fruit_star->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
 				p_fruit_cherry->set_y_val(rand() % 10);
 				p_fruit_cherry->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 				// Clear screen
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(gRenderer);
@@ -743,10 +754,10 @@ int main(int argc, char *args[])
 								icon2.render(540, 0);
 								icon3.render(570, 0);
 
-								//reset lai di chuyen on nom
+								// reset lai di chuyen on nom
 								gMain.checkvel();
 
-								//reset lai vi tri ban dau cua qua
+								// reset lai vi tri ban dau cua qua
 								p_fruit_bom->checkfruit();
 								p_fruit_cherry->checkfruit();
 								p_fruit_melon->checkfruit();
@@ -802,6 +813,12 @@ int main(int argc, char *args[])
 				gMark = TTF_RenderText_Solid(gFontTime, strMark.c_str(), gTextColormark);
 				gTextTexture.loadFromRenderedText(strMark, gTextColormark);
 				gTextTexture.render(0, 0);
+
+				speedfruit.checkspeed();
+				for (int i = 0; i < 5; i++)
+				{
+					p_fruits[i]->get_mPosY();
+				}
 
 				if (gMain.check())
 				{

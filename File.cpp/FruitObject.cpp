@@ -51,3 +51,14 @@ bool FruitObject::checkfruit()
 	return 0;
 }
 
+bool FruitObject::checkspeed()
+{
+	if(mark>=100){
+		mPosY += 0.5*y_val_;
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+

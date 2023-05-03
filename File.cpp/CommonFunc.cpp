@@ -22,6 +22,8 @@ Mix_Chunk *gdied = NULL;
 // Mix_Chunk *gMedium = NULL;
 // Mix_Chunk *gLow = NULL;
 
+int mark = 0;
+
 bool SDLGame::CheckCollision(const SDL_Rect a, const SDL_Rect b)
 {
 	int leftA, leftB;
