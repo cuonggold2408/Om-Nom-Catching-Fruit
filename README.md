@@ -24,6 +24,13 @@ d) Cấu trúc của Game
   - (MainObject.h, MainObject.cpp): khởi tạo các thông số của Om Nom, các hàm di chuyển của Om Nom.
   - (FruitObject.h. FruitObject.cpp): khởi tạo các thông số của đối tượng hoa quả, các hàm rơi, tốc độ rơi, reset hoa quả.
   - main.cpp: hàm xử lý chính, chạy các file con và gồm: hàm menu, hàm gameover, ghi điểm số.
+
+e) Cách chạy chương trình
+- Tải sdl2 rồi cài sdl2 và makefile vào vscode.
+- Kéo source code về thư mục có chứa file sdl2 và vscode.
+- Đưa hết các file .cpp, .h, Image, Music and sound effect ở trong thư mục chứa nó ra hết phía ngoài thư mục chính.
+- Cuối cùng là chạy chạy trình bằng makefile và bắt đầu thưởng thức game ^^.
+
   
   ## MÔ TẢ 
   - Menu
