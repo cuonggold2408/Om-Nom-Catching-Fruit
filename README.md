@@ -31,7 +31,12 @@ e) Cách chạy chương trình
 - Đưa hết các file .cpp, .h, Image, Music and sound effect ở trong thư mục chứa nó ra hết phía ngoài thư mục chính.
 - Cuối cùng là chạy chương trình bằng makefile và bắt đầu thưởng thức game ^^.
 
-  
+f) Một số hướng cần cải tiến tiếp để game thú vị hơn
+- Thêm nhiều quả rơi cùng lúc hơn.
+- Thêm mục bảng xếp hạng mà khi tắt chương trình vẫn lưu.
+- Cải tiến hơn chức năng spam nút space.
+- v.v...
+ 
   ## MÔ TẢ 
   - Menu
   
