@@ -25,13 +25,6 @@ FruitObject *p_fruit_nho = new FruitObject();
 FruitObject *p_fruit_star = new FruitObject();
 FruitObject *p_fruit_cherry = new FruitObject();
 
-FruitObject *p_fruits[]{
-	p_fruit_melon,
-	p_fruit_bom,
-	p_fruit_nho,
-	p_fruit_star,
-	p_fruit_cherry};
-
 FruitObject speedfruit;
 // int mark = 0;
 int count_die = 0;
@@ -815,10 +808,6 @@ int main(int argc, char *args[])
 				gTextTexture.render(0, 0);
 
 				speedfruit.checkspeed();
-				for (int i = 0; i < 5; i++)
-				{
-					p_fruits[i]->get_mPosY();
-				}
 
 				if (gMain.check())
 				{
